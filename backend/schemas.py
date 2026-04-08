@@ -1,20 +1,14 @@
 from pydantic import BaseModel
-from typing import List, Dict, Any, Optional
-from enum import Enum
-
-class ActionEnum(str, Enum):
-    NORMAL = "NORMAL"
-    OPTIMIZED = "OPTIMIZED"
-    CRITICAL = "CRITICAL"
-    LOW_DEMAND = "LOW_DEMAND"
+from typing import List, Dict, Any
 
 class RouteDecision(BaseModel):
     route_id: int
     quantum_state: int
 
 class PredictionResponse(BaseModel):
-    demand: float
-    action: str
+    predicted_demand: float
+    grid_status: str
+    recommendation: str
     optimized_routes: List[RouteDecision]
     explanation: str
     grid_state: Dict[str, Any]

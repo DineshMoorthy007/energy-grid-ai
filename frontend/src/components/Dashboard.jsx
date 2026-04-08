@@ -136,7 +136,7 @@ const Dashboard = () => {
         <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
           <MetricsCard 
             title="Predicted AI Demand" 
-            value={data ? data.demand : '---'} 
+            value={data ? data.predicted_demand : '---'} 
             unit="MW"
             icon={
               <svg className="w-12 h-12 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -145,10 +145,10 @@ const Dashboard = () => {
             }
           />
           <MetricsCard 
-            title="Grid Action Required" 
-            value={data ? data.action : '---'} 
+            title="Grid Status" 
+            value={data ? data.grid_status : '---'} 
             unit=""
-            colorClass={data ? (data.action === 'CRITICAL' ? 'from-rose-900 to-slate-900 border-rose-500/50' : 'from-slate-800 to-slate-900') : "from-slate-800 to-slate-900"}
+            colorClass={data ? (data.grid_status.includes('CRITICAL') ? 'from-rose-900 to-slate-900 border-rose-500/50' : 'from-slate-800 to-slate-900') : "from-slate-800 to-slate-900"}
             icon={
               <svg className="w-12 h-12 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -208,15 +208,15 @@ const Dashboard = () => {
 
         {/* AI Explanation & Demand Chart */}
         <div className="lg:col-span-1 space-y-6">
-          {/* Why this decision? */}
+          {/* AI Explanation & Recommendation */}
           <div className="border border-slate-800 bg-slate-900/40 rounded-2xl p-6 shadow-lg backdrop-blur-sm">
             <h2 className="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
               <svg className="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              Decision Explanation
+              AI Engine Explanation
             </h2>
-            <div className="bg-slate-950/50 rounded-xl p-4 border border-slate-800/50 text-slate-300 text-sm leading-relaxed min-h-[120px]">
+            <div className="bg-slate-950/50 rounded-xl p-4 border border-slate-800/50 text-slate-300 text-sm leading-relaxed mb-4 min-h-[80px]">
               {loading ? (
                 <div className="flex items-center gap-3 text-slate-500 animate-pulse">
                   <div className="w-4 h-4 rounded-full border-2 border-slate-600 border-t-indigo-500 animate-spin"></div>
@@ -225,6 +225,16 @@ const Dashboard = () => {
               ) : (
                 data ? data.explanation : "Awaiting data input to run AI models and Quantum optimization."
               )}
+            </div>
+
+            <h3 className="text-sm font-semibold text-slate-400 mb-2 mt-4 flex items-center gap-2">
+              <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Recommendation
+            </h3>
+            <div className="bg-emerald-900/20 rounded-xl p-3 border border-emerald-500/30 text-emerald-300/90 text-sm">
+              {data ? data.recommendation : "---"}
             </div>
           </div>
 
